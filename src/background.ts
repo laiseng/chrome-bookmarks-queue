@@ -2,6 +2,7 @@ export class BookmarkQueue {
     constructor() {
 
     }
+
     start() {
         chrome.contextMenus.create({ type: "normal", id: "0", title: "queue bookmark" });
         chrome.bookmarks.getTree(x => {
@@ -12,6 +13,13 @@ export class BookmarkQueue {
             }) : null;
         })
 
+        this.listenContextClick();
+    }
+
+    listenContextClick() {
+        chrome.contextMenus.onClicked.addListener((contextData, tab) => {
+            console.log(contextData, tab);
+        });
     }
 
     parseChildren(child: chrome.bookmarks.BookmarkTreeNode, ) {
@@ -21,6 +29,7 @@ export class BookmarkQueue {
 
         }) : null;
     }
+
     addMenu(c: chrome.bookmarks.BookmarkTreeNode) {
         // console.log(c);
         !c.url ? chrome.contextMenus.create({
