@@ -1,5 +1,31 @@
 // import * as moment from 'moment';
-// import * as $ from 'jquery';
+import * as $ from 'jquery';
+export class Popup {
+    constructor() {
+        let okbutton = document.querySelector('.okbutton');
+        console.log(okbutton)
+
+        okbutton.addEventListener('click', e => {
+            (e.target as HTMLButtonElement).style.backgroundColor = "red";
+
+            let ta = document.querySelector('#tadom') as HTMLTextAreaElement;
+            this.bindToLinkedList(ta.value);
+        })
+    }
+
+    bindToLinkedList(textAreaValues: string) {
+        let list = document.querySelector('.linklist');
+        let urls = textAreaValues.match(/[^\r\n]+/g);
+        urls.forEach(x => {
+            let newel = document.createElement('div');
+            newel.innerText = x;
+            list.appendChild(newel)
+        });
+    }
+}
+
+let p = new Popup();
+console.log("imm")
 
 // let count = 0;
 
