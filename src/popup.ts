@@ -1,31 +1,57 @@
-// import * as moment from 'moment';
 import * as $ from 'jquery';
+import { LinkComponent } from './component/link.component';
+import { LinkModel } from './model/LinkItem.model';
 export class Popup {
+    urls: LinkComponent;
+
     constructor() {
         let okbutton = document.querySelector('.okbutton');
         console.log(okbutton)
-
-        okbutton.addEventListener('click', e => {
-            (e.target as HTMLButtonElement).style.backgroundColor = "red";
-
-            let ta = document.querySelector('#tadom') as HTMLTextAreaElement;
-            this.bindToLinkedList(ta.value);
-        })
+        okbutton.addEventListener('click', (e: MouseEvent) => { this.onOkClick(e); })
     }
 
-    bindToLinkedList(textAreaValues: string) {
+    bindToLinkedList(urls: LinkComponent) {
         let list = document.querySelector('.linklist');
-        let urls = textAreaValues.match(/[^\r\n]+/g);
-        urls.forEach(x => {
+        urls.links.forEach(x => {
             let newel = document.createElement('div');
-            newel.innerText = x;
+            newel.innerText = x.url;
             list.appendChild(newel)
         });
+    }
+
+    onOkClick(e: MouseEvent) {
+        (e.target as HTMLButtonElement).style.backgroundColor = "red";
+        let ta = document.querySelector('#tadom') as HTMLTextAreaElement;
+        this.urls = new LinkComponent(ta.value);
+        this.bindToLinkedList(this.urls);
+
+        this.setBadgeCount(this.urls.count);
+
+    }
+
+    setBadgeCount(count:number) {
+        chrome.browserAction.setBadgeBackgroundColor({
+            "color": "#ff0000",
+        });
+        chrome.browserAction.setBadgeText({
+            text: count.toString()
+        });
+    }
+
+    getBackgroundData(){
+        chrome.extension
     }
 }
 
 let p = new Popup();
+var background = chrome.extension.getBackgroundPage(); //do this in global scope for popup.js
+// chrome..getBackgroundPage((x:any)=>{
+//     console.log(x)
+//     x.dothis();
+// })
 console.log("imm")
+
+
 
 // let count = 0;
 

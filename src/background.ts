@@ -42,11 +42,6 @@ export class BookmarkQueue {
 
 let b = new BookmarkQueue();
 b.start();
-
-chrome.browserAction.setBadgeBackgroundColor({
-    "color": "#ff0000",
-});
-
-chrome.browserAction.setBadgeText({
-    text: "99"    
-});
+function dothis(){
+    console.log("do this executes=======");
+}
